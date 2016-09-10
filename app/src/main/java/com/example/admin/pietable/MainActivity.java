@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     startActivity(intent);
                     MainActivity.this.finish();
                 }
-                misScrolled=true;
                 break;
             case ViewPager.SCROLL_STATE_DRAGGING: //正在被拖动
                 Log.d("TTT","正在被拖动");
