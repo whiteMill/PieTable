@@ -1,9 +1,11 @@
 package com.example.admin.pietable;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +16,13 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
     private ViewPager mViewPager;
     private CircleIndicator mCircleIndicator;
     private View view1, view2, view3, view4, view5;//页卡视图
     private List<View> mViewList = new ArrayList<>();//页卡视图集合
     private LayoutInflater mInflater;
+    private Boolean misScrolled;
 
 
     @Override
@@ -66,7 +69,47 @@ public class MainActivity extends AppCompatActivity {
                 container.removeView(mViewList.get(position));
             }
         });
+        mViewPager.addOnPageChangeListener(this);
         mCircleIndicator.setViewPager(mViewPager);
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    /*
+    * 正常拖动过程中状态变化时 SCROLL_STATE_IDLE——》SCROLL_STATE_DRAGGING——》SCROLL_STATE_SETTLING——》SCROLL_STATE_IDLE
+     但是如果最后一页向左滑动和第一页向右滑动是不可能滑动成功的，于是状态改变就有些不同SCROLL_STATE_IDLE——》SCROLL_STATE_DRAGGING——》SCROLL_STATE_IDLE */
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        switch (state){
+            case ViewPager.SCROLL_STATE_IDLE: // 空闲状态
+                Log.d("TTT","空闲状态");
+                if(mViewPager.getCurrentItem()==mViewPager.getAdapter().getCount()-1&&!misScrolled){
+                    Intent intent=new Intent(MainActivity.this,Main2Activity.class);
+                    startActivity(intent);
+                    MainActivity.this.finish();
+                }
+                misScrolled=true;
+                break;
+            case ViewPager.SCROLL_STATE_DRAGGING: //正在被拖动
+                Log.d("TTT","正在被拖动");
+                misScrolled=false;
+                break;
+            case ViewPager.SCROLL_STATE_SETTLING://一个拖动过程完成
+                Log.d("TTT","一个拖动过程结束");
+                misScrolled=true;
+                break;
+
+        }
 
     }
 }
