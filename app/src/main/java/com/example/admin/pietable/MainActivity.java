@@ -85,8 +85,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     /*
-    * 正常拖动过程中状态变化时 SCROLL_STATE_IDLE——》SCROLL_STATE_DRAGGING——》SCROLL_STATE_SETTLING——》SCROLL_STATE_IDLE
-     但是如果最后一页向左滑动和第一页向右滑动是不可能滑动成功的，于是状态改变就有些不同SCROLL_STATE_IDLE——》SCROLL_STATE_DRAGGING——》SCROLL_STATE_IDLE */
+     正常拖动过程中状态变化时
+     SCROLL_STATE_IDLE——》SCROLL_STATE_DRAGGING——》SCROLL_STATE_SETTLING——》SCROLL_STATE_IDLE
+     但是如果最后一页向左滑动和第一页向右滑动是不可能滑动成功的，
+     于是状态改变就有些不同SCROLL_STATE_IDLE——》SCROLL_STATE_DRAGGING——》SCROLL_STATE_IDLE */
 
     @Override
     public void onPageScrollStateChanged(int state) {
